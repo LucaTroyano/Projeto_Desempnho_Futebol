@@ -2,7 +2,6 @@ import pandas as pd
 import sqlalchemy
 import requests
 import json
-import time
 
 headers = { 'X-Auth-Token': '9644f5c476f54527b66accf972400756' }
 def extracao():
@@ -10,18 +9,19 @@ def extracao():
     dfs = []
     for i in ligas:
         uri = f"http://api.football-data.org/v4/competitions/{i}/matches?season=2025"
-        response = requests.get(uri, headers=headers).json()
         try:
-            with open(f'{i}_2025', 'w') as f:
-                json.dump(response,f,indent=4)
-            codigo_liga = response['competition']['code']
-            df = pd.json_normalize(response['matches'])
-            df['codigoLiga'] = codigo_liga
-            dfs.append(df)
-            return dfs
+            response = requests.get(uri, headers=headers, timeout=10).json()
         except requests.exceptions.HTTPError as errh:
             print(f"Erro HTTP: {errh}")
-        time.sleep(5)
+        with open(f'{i}_2025', 'w') as f:
+            json.dump(response,f,indent=4)
+        with open(f'{i}_2025', 'r') as leitura:
+            dados = json.load(leitura)
+        codigo_liga = dados['competition']['code']
+        df = pd.json_normalize(dados['matches'])
+        df['codigoLiga'] = codigo_liga
+        dfs.append(df)
+    return dfs
 def juncao_dataframes(dfs: list):
     inter_df = pd.concat(dfs)
     df_home = inter_df[["utcDate", "id", "competition.id", "status", "homeTeam.name", "homeTeam.id","score.fullTime.home", "score.winner", "codigoLiga"]]
