@@ -2,6 +2,7 @@ import pandas as pd
 import sqlalchemy
 import requests
 import json
+import time
 
 headers = { 'X-Auth-Token': '9644f5c476f54527b66accf972400756' }
 def extracao():
@@ -9,7 +10,7 @@ def extracao():
     dfs = []
     for i in ligas:
         uri = f"http://api.football-data.org/v4/competitions/{i}/matches?season=2025"
-        response = requests.get(uri, headers=headers, timeout=7).json()
+        response = requests.get(uri, headers=headers).json()
         try:
             with open(f'{i}_2025', 'w') as f:
                 json.dump(response,f,indent=4)
@@ -20,8 +21,7 @@ def extracao():
             return dfs
         except requests.exceptions.HTTPError as errh:
             print(f"Erro HTTP: {errh}")
-
-
+        time.sleep(5)
 def juncao_dataframes(dfs: list):
     inter_df = pd.concat(dfs)
     df_home = inter_df[["utcDate", "id", "competition.id", "status", "homeTeam.name", "homeTeam.id","score.fullTime.home", "score.winner", "codigoLiga"]]
