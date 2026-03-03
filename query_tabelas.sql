@@ -1,3 +1,5 @@
+/* As tabelas aqui "criadas" são apenas uma view, faça a análise nesse mesmo arquivo. */
+
 WITH tb_calendario AS (
     SELECT
         teamId,
@@ -41,4 +43,4 @@ tb_partidas AS (
     FROM dados_football
     ORDER BY dtJogo
 )
-SELECT * FROM tb_partidas;
+SELECT * FROM tb_calendario WHERE nomeTime = "Real Madrid CF";

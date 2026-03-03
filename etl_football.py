@@ -43,7 +43,7 @@ def tratamento(df:pd.DataFrame):
     df["tempoDescanso"] = pd.to_timedelta(df["tempoDescanso"],errors='coerce')
     df.loc[df["tempoDescanso"].dt.days >= 5, "fadiga"] = 'Pouca'
     df.loc[df["tempoDescanso"].dt.days < 5, "fadiga"] = 'Risco'
-    df.loc[df["tempoDescanso"].dt.days <= 3, "fadiga"] = 'Crítica'
+    df.loc[df["tempoDescanso"].dt.days < 3, "fadiga"] = 'Crítica'
     df["tempoDescanso"] = (df["tempoDescanso"].dt.total_seconds() / 86400)
     return df
 def criar_conexao_banco(dados: pd.DataFrame):
