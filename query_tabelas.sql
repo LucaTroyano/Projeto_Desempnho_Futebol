@@ -24,7 +24,7 @@ WITH tb_calendario AS (
         fadiga,
         codigoLiga
     FROM dados_football
-    WHERE status = "FINISHED" OR status = "TIMED"
+    WHERE status = "FINISHED"
     GROUP BY nomeTime, dtJogo 
 ),
 
