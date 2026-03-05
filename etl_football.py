@@ -3,9 +3,9 @@ import sqlalchemy
 import requests
 import json
 
-headers = { 'X-Auth-Token': '' } # Coloque aqui o seu token
+headers = { 'X-Auth-Token': '9644f5c476f54527b66accf972400756' } # Coloque aqui o seu token
 def extracao():
-    ligas = ['PL', 'CL', 'PD']
+    ligas = ['PL', 'CL', 'PD', 'FL1', 'SA', 'BL1']
     dfs = []
     for i in ligas:
         uri = f"http://api.football-data.org/v4/competitions/{i}/matches?season=2025"

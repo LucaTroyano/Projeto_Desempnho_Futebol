@@ -20,7 +20,7 @@ WITH tb_calendario AS (
                 END
         END as Resultado,
         datetime(substr(DataJogo, 1,16)) as dtJogo,
-        ROUND(tempoDescanso,2) AS tempoDescanso,
+        COALESCE(ROUND(tempoDescanso,2), "-") AS tempoDescanso,
         fadiga,
         codigoLiga
     FROM dados_football
@@ -43,4 +43,4 @@ tb_partidas AS (
     FROM dados_football
     ORDER BY dtJogo
 )
-SELECT * FROM tb_calendario WHERE nomeTime = "Real Madrid CF";
+SELECT * FROM tb_calendario;
