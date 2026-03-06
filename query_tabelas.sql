@@ -1,6 +1,5 @@
-/* As tabelas aqui "criadas" são apenas uma view, faça a análise nesse mesmo arquivo. */
-
-WITH tb_calendario AS (
+DROP TABLE IF EXISTS tb_calendario;
+ CREATE TABLE tb_calendario AS
     SELECT
         teamId,
         teamName as nomeTime,
@@ -25,10 +24,9 @@ WITH tb_calendario AS (
         codigoLiga
     FROM dados_football
     WHERE status = "FINISHED"
-    GROUP BY nomeTime, dtJogo 
-),
-
-tb_partidas AS (
+    GROUP BY nomeTime, dtJogo;
+DROP TABLE IF EXISTS tb_partidas;
+CREATE TABLE tb_partidas AS
     SELECT
         id,
         teamId,
@@ -41,6 +39,4 @@ tb_partidas AS (
         datetime(substr(DataJogo, 1,16)) as dtJogo,
         status
     FROM dados_football
-    ORDER BY dtJogo
-)
-SELECT * FROM tb_calendario;
+    ORDER BY dtJogo;
